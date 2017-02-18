@@ -49,7 +49,5 @@ namespace ZzaDashboard
 
             ErrorsChanged(this, new DataErrorsChangedEventArgs(propertyName));
         }
-
-
     }
 }

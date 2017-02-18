@@ -8,7 +8,7 @@
              d:DesignWidth="300" Loaded="OnLoaded">
     <Grid>
 
-        <Grid x:Name="grid1"
+        <Grid x:Name="Grid1"
               HorizontalAlignment="Left"
               Margin="10,10,0,0"
               VerticalAlignment="Top">
@@ -28,7 +28,7 @@
                    Margin="3"
                    Grid.Row="0"
                    VerticalAlignment="Center" />
-            <TextBox x:Name="firstNameTextBox"
+            <TextBox x:Name="FirstNameTextBox"
                      Grid.Column="1"
                      HorizontalAlignment="Left"
                      Height="23"
@@ -42,7 +42,7 @@
                    Margin="3"
                    Grid.Row="1"
                    VerticalAlignment="Center" />
-            <TextBox x:Name="lastNameTextBox"
+            <TextBox x:Name="LastNameTextBox"
                      Grid.Column="1"
                      HorizontalAlignment="Left"
                      Height="23"
@@ -56,7 +56,7 @@
                    Margin="3"
                    Grid.Row="2"
                    VerticalAlignment="Center" />
-            <TextBox x:Name="phoneTextBox"
+            <TextBox x:Name="PhoneTextBox"
                      Grid.Column="1"
                      HorizontalAlignment="Left"
                      Height="23"
@@ -70,7 +70,7 @@
                         HorizontalAlignment="Right"
                         Orientation="Horizontal"
                         Margin="3">
-                <Button x:Name="saveButton"
+                <Button x:Name="SaveButton"
                         Content="Save"
                         Width="75"
                         Click="OnSave" />
