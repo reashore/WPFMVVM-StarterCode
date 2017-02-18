@@ -49,6 +49,7 @@ namespace ZzaDashboard.Services
             {
                 _context.Customers.Remove(customer);
             }
+
             await _context.SaveChangesAsync();
         }
     }
