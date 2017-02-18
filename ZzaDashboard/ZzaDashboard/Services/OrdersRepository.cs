@@ -5,11 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using Zza.Data;
+
 namespace ZzaDashboard.Services
 {
     public class OrdersRepository : IOrdersRepository
     {
-        ZzaDbContext _context = new ZzaDbContext();
+        private readonly ZzaDbContext _context = new ZzaDbContext();
 
         public async Task<List<Order>> GetOrdersForCustomersAsync(Guid customerId)
         {
@@ -30,10 +31,11 @@ namespace ZzaDashboard.Services
 
         public async Task<Order> UpdateOrderAsync(Order order)
         {
-            if (!_context.Orders.Local.Any(o => o.Id == order.Id))
+            if (_context.Orders.Local.All(o => o.Id != order.Id))
             {
                 _context.Orders.Attach(order);
             }
+
             _context.Entry(order).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return order;
@@ -43,19 +45,24 @@ namespace ZzaDashboard.Services
         {
             using (TransactionScope scope = new TransactionScope())
             {
-                var order = _context.Orders.Include("OrderItems").Include("OrderItems.OrderItemOptions").FirstOrDefault(o => o.Id == orderId);
+                Order order = _context.Orders.Include("OrderItems")
+                                             .Include("OrderItems.OrderItemOptions")
+                                             .FirstOrDefault(o => o.Id == orderId);
+
                 if (order != null)
                 {
                     foreach (OrderItem item in order.OrderItems)
                     {
-                        foreach (var orderItemOption in item.Options)
+                        foreach (OrderItemOption orderItemOption in item.Options)
                         {
                             _context.OrderItemOptions.Remove(orderItemOption);
                         }
                         _context.OrderItems.Remove(item);
                     }
+
                     _context.Orders.Remove(order);
                 }
+
                 await _context.SaveChangesAsync();
                 scope.Complete();
             }

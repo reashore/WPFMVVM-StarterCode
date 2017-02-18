@@ -9,7 +9,7 @@ namespace ZzaDashboard.Services
 {
     public class CustomersRepository : ICustomersRepository
     {
-        ZzaDbContext _context = new ZzaDbContext();
+        private readonly ZzaDbContext _context = new ZzaDbContext();
 
         public Task<List<Customer>> GetCustomersAsync()
         {
@@ -30,10 +30,11 @@ namespace ZzaDashboard.Services
 
         public async Task<Customer> UpdateCustomerAsync(Customer customer)
         {
-            if (!_context.Customers.Local.Any(c => c.Id == customer.Id))
+            if (_context.Customers.Local.All(c => c.Id != customer.Id))
             {
                 _context.Customers.Attach(customer);
             }
+
             _context.Entry(customer).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return customer;
@@ -42,7 +43,8 @@ namespace ZzaDashboard.Services
 
         public async Task DeleteCustomerAsync(Guid customerId)
         {
-            var customer = _context.Customers.FirstOrDefault(c => c.Id == customerId);
+            Customer customer = _context.Customers.FirstOrDefault(c => c.Id == customerId);
+
             if (customer != null)
             {
                 _context.Customers.Remove(customer);
