@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace Zza.Data
 {
@@ -11,6 +10,7 @@ namespace Zza.Data
         {
             OrderItems = new List<OrderItem>();
         }
+
         [Key]
         public long Id { get; set; }
         public Guid? StoreId { get; set; }
@@ -25,7 +25,6 @@ namespace Zza.Data
         public string DeliveryCity { get; set; }
         public string DeliveryState { get; set; }
         public string DeliveryZip { get; set; }
-
         //public Customer Customer { get; set; }
         public List<OrderItem> OrderItems { get; set; }
         public OrderStatus Status { get; set; }
